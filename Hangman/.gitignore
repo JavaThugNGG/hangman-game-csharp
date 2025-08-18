@@ -1,0 +1,12 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build Folders
+bin/
+obj/
+
+# Workspace / Designer
+*.wsuo
+DocumentLayout.backup.json
