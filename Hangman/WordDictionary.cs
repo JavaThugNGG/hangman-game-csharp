@@ -9,8 +9,8 @@ namespace Hangman
 {
     internal class WordDictionary
     {
-        private readonly Random random = new Random();
-        private readonly Dictionary<string, string> words = new();
+        private readonly Random _random = new Random();
+        private readonly Dictionary<string, string> _words = new();
 
         internal WordDictionary(string pathName)
         {
@@ -20,13 +20,13 @@ namespace Hangman
 
         internal string GetRandomWord()
         {
-            int index = random.Next(words.Count);
-            return words.Keys.ElementAt(index);
+            int index = _random.Next(_words.Count);
+            return _words.Keys.ElementAt(index);
         }
 
         internal string GetDefinition(string word)
         {
-            return words[word];
+            return _words[word];
         }
 
         private void ReadWords(StreamReader reader)
@@ -35,7 +35,7 @@ namespace Hangman
             while ((line = reader.ReadLine()) != null)
             {
                 var parts = line.Split(" - ");
-                words.Add(parts[0], parts[1]);
+                _words.Add(parts[0], parts[1]);
             }
         }
     }
