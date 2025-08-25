@@ -12,8 +12,20 @@ namespace Hangman
 
         internal static void Main(string[] args)
         {
-            string text = System.IO.File.ReadAllText(Path);
-            Console.WriteLine(text);
+            WordDictionary wordDictionary = new WordDictionary(Path);
+            bool isPlayAgain;
+
+            do
+            {
+                MaskedWord maskedWord = new MaskedWord(wordDictionary);
+
+                Game game = new Game(maskedWord);
+                game.RunGameLoop();
+
+                Console.WriteLine("Хотите сыграть еще раз? (Y/N)");
+                char answer = Console.ReadLine()[0];
+                isPlayAgain = answer == 'Y' || answer == 'y';
+            } while (isPlayAgain);
         }
     }
 }
