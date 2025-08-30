@@ -2,7 +2,7 @@
 {
     internal class Program
     {
-        private const string Path = "words.txt";
+        private const string Path = "Data/words.txt";
         private static readonly TextReader Reader = Console.In;
 
         internal static void Main(string[] args)
