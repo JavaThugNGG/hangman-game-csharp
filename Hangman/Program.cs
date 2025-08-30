@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hangman
+﻿namespace Hangman
 {
     internal class Program
     {
         private const string Path = "words.txt";
+        private static readonly TextReader Reader = Console.In;
 
         internal static void Main(string[] args)
         {
@@ -19,13 +14,28 @@ namespace Hangman
             {
                 MaskedWord maskedWord = new MaskedWord(wordDictionary);
 
-                Game game = new Game(maskedWord);
+                Game game = new Game(maskedWord, Reader);
                 game.RunGameLoop();
 
                 Console.WriteLine("Хотите сыграть еще раз? (Y/N)");
-                char answer = Console.ReadLine()[0];
-                isPlayAgain = answer == 'Y' || answer == 'y';
+
+                string? input = Reader.ReadLine();
+                char answer = GetAnswer(input);
+
+                isPlayAgain = answer is 'Y' or 'y';
             } while (isPlayAgain);
+        }
+
+        private static char GetAnswer(string? input)
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                return input[0];
+            }
+            else
+            {
+                return 'N';
+            }
         }
     }
 }

@@ -1,38 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hangman
+﻿namespace Hangman
 {
     internal class Game
     {
         private const int Easy = 1;
         private const int Medium = 2;
         private const int Hard = 3;
-        private readonly StreamReader _streamReader;
         private MaskedWord _maskedWord;
+        private TextReader _input;
 
-        internal Game(MaskedWord maskedWord)
+        internal Game(MaskedWord maskedWord, TextReader input)
         {
             _maskedWord = maskedWord;
+            _input = input;
         }
 
         internal void RunGameLoop()
         {
             int difficultyLevel = InputDifficultyLevel();
-            ISet<char> usedLetters = new HashSet<char>();
+            var usedLetters = new HashSet<char>();
 
             if (difficultyLevel == Easy)
             {
-                _maskedWord.OpenNLetterInMask(2);
+                _maskedWord.OpenNLettersInMask(2);
             }
 
-            int mistakes = 0;
-            bool isWin = false;
-            bool isLose = false;
+            var mistakes = 0;
+            var isWin = false;
+            var isLose = false;
 
             do
             {
@@ -40,7 +34,7 @@ namespace Hangman
                 Console.WriteLine(Environment.NewLine + "Ошибок: " + mistakes);
                 Console.WriteLine(_maskedWord.Mask);
 
-                if (difficultyLevel == Easy || difficultyLevel == Medium)
+                if (difficultyLevel is Easy or Medium)
                 {
                     Console.WriteLine("Определение слова: " + _maskedWord.Definition);
                 }
@@ -66,6 +60,7 @@ namespace Hangman
                 {
                     isWin = true;
                 }
+
             } while (!isWin && !isLose);
 
             if (isWin)
@@ -81,22 +76,22 @@ namespace Hangman
             }
         }
 
-        internal static char InputValidLetter(ISet<char> usedLetters)
+        internal char InputValidLetter(ISet<char> usedLetters)
         {
             while (true)
             {
                 Console.WriteLine("Введите букву: ");
-                string input = Console.ReadLine();
+                string? input = _input.ReadLine()?.Trim();
 
-                if (input.Length != 1)
+                if (string.IsNullOrEmpty(input) || input.Length != 1)
                 {
                     Console.WriteLine("Введите только одну букву!");
                     continue;
                 }
 
-                char letter = input[0];
+                var letter = input[0];
 
-                if (letter < 'a' || letter > 'z')
+                if (letter is < 'a' or > 'z')
                 {
                     Console.WriteLine("Введите строчную букву английского алфавита!");
                     continue;
@@ -112,7 +107,7 @@ namespace Hangman
             }
         }
 
-        internal static int InputDifficultyLevel()
+        internal int InputDifficultyLevel()
         {
             Console.WriteLine("Выберите уровень сложности (1/2/3: ");
             Console.WriteLine("1. Легкий - значение слова как подсказка, две открытые буквы");
@@ -121,7 +116,7 @@ namespace Hangman
 
             while (true)
             {
-                string input = Console.ReadLine();
+                string? input = _input.ReadLine()?.Trim();
 
                 if (input.Length != 1 || !char.IsDigit(input[0]))
                 {
@@ -129,9 +124,9 @@ namespace Hangman
                     continue;
                 }
 
-                int difficultyLevel = int.Parse(input);
+                var difficultyLevel = int.Parse(input);
 
-                if (difficultyLevel < 1 || difficultyLevel > 3)
+                if (difficultyLevel is < 1 or > 3)
                 {
                     Console.WriteLine("Введите число от 1 до 3!");
                     continue;
@@ -141,7 +136,7 @@ namespace Hangman
             }
         }
 
-        static void PrintHangman(int mistakes)
+        internal static void PrintHangman(int mistakes)
         {
             switch (mistakes)
             {

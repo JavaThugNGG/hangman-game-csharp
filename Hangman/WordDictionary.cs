@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Hangman
+﻿namespace Hangman
 {
     internal class WordDictionary
     {
         private readonly Random _random = new Random();
-        private readonly Dictionary<string, string> _words = new();
+        private readonly IDictionary<string, string> _words = new Dictionary<string, string>();
 
         internal WordDictionary(string pathName)
         {
@@ -20,7 +13,7 @@ namespace Hangman
 
         internal string GetRandomWord()
         {
-            int index = _random.Next(_words.Count);
+            var index = _random.Next(_words.Count);
             return _words.Keys.ElementAt(index);
         }
 
