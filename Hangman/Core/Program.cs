@@ -1,4 +1,4 @@
-﻿namespace Hangman
+﻿namespace Hangman.Core
 {
     internal class Program
     {
@@ -7,20 +7,20 @@
 
         internal static void Main(string[] args)
         {
-            WordDictionary wordDictionary = new WordDictionary(Path);
+            var wordDictionary = new WordDictionary(Path);
             bool isPlayAgain;
 
             do
             {
-                MaskedWord maskedWord = new MaskedWord(wordDictionary);
+                var maskedWord = new MaskedWord(wordDictionary);
 
-                Game game = new Game(maskedWord, Reader);
+                var game = new Game(maskedWord, Reader);
                 game.RunGameLoop();
 
                 Console.WriteLine("Хотите сыграть еще раз? (Y/N)");
 
-                string? input = Reader.ReadLine();
-                char answer = GetAnswer(input);
+                var input = Reader.ReadLine();
+                var answer = GetAnswer(input);
 
                 isPlayAgain = answer is 'Y' or 'y';
             } while (isPlayAgain);

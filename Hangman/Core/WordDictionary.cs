@@ -1,4 +1,4 @@
-﻿namespace Hangman
+﻿namespace Hangman.Core
 {
     internal class WordDictionary
     {

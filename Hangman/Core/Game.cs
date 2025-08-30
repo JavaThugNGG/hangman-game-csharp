@@ -1,4 +1,4 @@
-﻿namespace Hangman
+﻿namespace Hangman.Core
 {
     internal class Game
     {
@@ -16,7 +16,7 @@
 
         internal void RunGameLoop()
         {
-            int difficultyLevel = InputDifficultyLevel();
+            var difficultyLevel = InputDifficultyLevel();
             var usedLetters = new HashSet<char>();
 
             if (difficultyLevel == Easy)
@@ -39,7 +39,7 @@
                     Console.WriteLine("Определение слова: " + _maskedWord.Definition);
                 }
 
-                char letter = InputValidLetter(usedLetters);
+                var letter = InputValidLetter(usedLetters);
                 usedLetters.Add(letter);
 
                 if (_maskedWord.ContainsLetter(letter))
@@ -81,7 +81,7 @@
             while (true)
             {
                 Console.WriteLine("Введите букву: ");
-                string? input = _input.ReadLine()?.Trim();
+                var input = _input.ReadLine()?.Trim();
 
                 if (string.IsNullOrEmpty(input) || input.Length != 1)
                 {
@@ -116,7 +116,7 @@
 
             while (true)
             {
-                string? input = _input.ReadLine()?.Trim();
+                var input = _input.ReadLine()?.Trim();
 
                 if (input.Length != 1 || !char.IsDigit(input[0]))
                 {
